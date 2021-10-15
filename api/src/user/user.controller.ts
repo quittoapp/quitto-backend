@@ -1,13 +1,13 @@
 import { Controller, Post, Body } from '@nestjs/common'
 import { UserService } from './user.service'
-import { UserFromGoogle } from './dto/user-from-google.dto'
+import { CreateUserDTO } from './dto/create-user.dto'
 
 @Controller('user')
 export class UserController {
   public constructor(private readonly userService: UserService) {}
 
-  @Post('auth')
-  public create(@Body() createUserDto?: UserFromGoogle) {
+  @Post('auth/google')
+  public create(@Body() createUserDto: CreateUserDTO) {
     return this.userService.findOneOrCreate(createUserDto)
   }
 }
