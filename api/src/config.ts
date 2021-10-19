@@ -21,6 +21,12 @@ class Config {
 
   @IsString()
   public databaseName: string = process.env.DATABASE_NAME as string
+
+  @IsString()
+  public googleOAuthClientId: string = process.env.GOOGLE_OAUTH_CLIENT_ID as string
+
+  @IsString()
+  public googleOAuthClientSecret: string = process.env.GOOGLE_OAUTH_CLIENT_SECRET as string
 }
 
 const config = new Config()

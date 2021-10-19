@@ -8,7 +8,7 @@ admin.initializeApp({
 
 @Injectable()
 export class NotificationService {
-  public async sendNotifications<T>(to: string | string[], data: T) {
+  public async notify<T>(to: string | string[], data: T) {
     await admin.messaging().sendToDevice(to, data)
   }
 }

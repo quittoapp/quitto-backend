@@ -19,7 +19,7 @@ export class User {
   @Column()
   public fcmToken!: string
 
-  @Column()
+  @Column({ default: false })
   public hasFinishedRegistration!: boolean
 
   @Column()

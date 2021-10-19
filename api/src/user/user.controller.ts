@@ -1,13 +1,13 @@
-import { Controller, Post, Body } from '@nestjs/common'
+import { Controller, Post, Query } from '@nestjs/common'
+import { GoogleAuthQueryDTO } from './dto/google-auth-params.dto'
 import { UserService } from './user.service'
-import { CreateUserDTO } from './dto/create-user.dto'
 
 @Controller('user')
 export class UserController {
   public constructor(private readonly userService: UserService) {}
 
   @Post('auth/google')
-  public create(@Body() createUserDto: CreateUserDTO) {
-    return this.userService.findOneOrCreate(createUserDto)
+  public authenticate(@Query() query: GoogleAuthQueryDTO) {
+    return this.userService.authenticateWithGoogle(query.accessToken)
   }
 }
