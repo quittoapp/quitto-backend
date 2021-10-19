@@ -16,6 +16,18 @@ export class User {
   @Column()
   public photoUrl!: string
 
+  @Column()
+  public fcmToken!: string
+
+  @Column()
+  public hasFinishedRegistration!: boolean
+
+  @Column()
+  public cigarettesPerDay!: number
+
+  @Column({ type: 'integer' })
+  public timezoneOffset!: number
+
   @OneToOne(() => TimeWindow)
   public timeWindow!: TimeWindow
 

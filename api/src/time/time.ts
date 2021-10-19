@@ -1,23 +1,23 @@
 export class Time {
-  public static fromTimeString(timeString: string) {
+  public constructor(
+    private readonly _hours: number = 0,
+    private readonly _minutes: number = 0,
+    private readonly _seconds: number = 0,
+  ) {}
+
+  public static fromString(timeString: string) {
     const splitted = timeString.split(':')
 
-    if (splitted.length !== 3) {
+    if (![1, 2, 3].includes(splitted.length)) {
       throw new Error(`Invalid time string: ${timeString}`)
     }
 
-    const [hours, minutes, seconds] = splitted
+    const [hours = 0, minutes = 0, seconds = 0] = splitted.map(Number)
     return new Time(hours, minutes, seconds)
   }
 
-  public constructor(
-    private readonly hours,
-    private readonly minutes,
-    private readonly seconds,
-  ) {}
-
   public toString() {
-    return `${this.hours}:${this.minutes}:${this.seconds}`
+    return `${this._hours}:${this._minutes}:${this._seconds}`
   }
 
   public setForDate(date: Date): Date {
@@ -25,11 +25,23 @@ export class Time {
       date.getFullYear(),
       date.getMonth(),
       date.getDate(),
-      this.hours,
-      this.minutes,
-      this.seconds,
+      this._hours,
+      this._minutes,
+      this._seconds,
     )
 
     return newDate
+  }
+
+  public get hours() {
+    return this._hours
+  }
+
+  public get minutes() {
+    return this._minutes
+  }
+
+  public get seconds() {
+    return this._seconds
   }
 }

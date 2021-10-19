@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { ScheduleModule } from '@nestjs/schedule'
 import { config } from './config'
 import { User } from './user/entities/user.entity'
 import { UserModule } from './user/user.module'
@@ -23,6 +24,7 @@ import { SmokingPermission } from './smoking-permission/entities/smoking-permiss
     UserModule,
     NotificationModule,
     SmokingPermissionModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [],
   providers: [],

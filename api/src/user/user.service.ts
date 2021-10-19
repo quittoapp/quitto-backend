@@ -33,6 +33,7 @@ export class UserService {
     user.email = createUserDto.email
     user.fullName = createUserDto.email
     user.photoUrl = createUserDto.photoUrl
+    user.timezoneOffset = createUserDto.timezoneOffset
     user.timeWindow = this.makeDefaultTimeWindowForUser()
 
     return this.userRepository.save(user)

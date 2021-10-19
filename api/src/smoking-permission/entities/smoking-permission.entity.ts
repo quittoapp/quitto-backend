@@ -1,11 +1,5 @@
 import { User } from 'src/user/entities/user.entity'
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class SmokingPermission {
@@ -18,4 +12,9 @@ export class SmokingPermission {
   @ManyToOne(() => User)
   @JoinColumn()
   public user!: User
+
+  public constructor(date: Date, user: User) {
+    this.date = date
+    this.user = user
+  }
 }

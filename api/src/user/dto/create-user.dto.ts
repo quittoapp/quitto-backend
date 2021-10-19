@@ -10,6 +10,9 @@ export class CreateUserDTO {
   @IsUrl()
   public photoUrl!: string
 
+  @IsUrl()
+  public timezoneOffset!: number
+
   @IsString()
   public fcmToken!: string
 }
