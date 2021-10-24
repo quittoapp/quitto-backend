@@ -27,6 +27,9 @@ class Config {
 
   @IsString()
   public googleOAuthClientSecret: string = process.env.GOOGLE_OAUTH_CLIENT_SECRET as string
+
+  @IsString()
+  public jwtSecretKey: string = process.env.JWT_SECRET_KEY as string
 }
 
 const config = new Config()

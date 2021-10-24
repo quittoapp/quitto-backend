@@ -8,6 +8,7 @@ import { NotificationModule } from './notification/notification.module'
 import { SmokingPermissionModule } from './smoking-permission/smoking-permission.module'
 import { TimeWindow } from './user/entities/time-window.entity'
 import { SmokingPermission } from './smoking-permission/entities/smoking-permission.entity'
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { SmokingPermission } from './smoking-permission/entities/smoking-permiss
     NotificationModule,
     SmokingPermissionModule,
     ScheduleModule.forRoot(),
+    AuthModule,
   ],
   controllers: [],
   providers: [],

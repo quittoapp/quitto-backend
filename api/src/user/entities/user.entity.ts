@@ -16,19 +16,19 @@ export class User {
   @Column()
   public photoUrl!: string
 
-  @Column()
-  public fcmToken!: string
-
   @Column({ default: false })
   public hasFinishedRegistration!: boolean
 
-  @Column()
+  @Column({ nullable: true })
+  public fcmToken!: string
+
+  @Column({ nullable: true })
   public cigarettesPerDay!: number
 
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', nullable: true })
   public timezoneOffset!: number
 
-  @OneToOne(() => TimeWindow)
+  @OneToOne(() => TimeWindow, { nullable: true })
   public timeWindow!: TimeWindow
 
   @OneToMany(() => SmokingPermission, (smokingPermission) => smokingPermission.user)
