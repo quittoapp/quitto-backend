@@ -8,10 +8,10 @@ export class TimeRange {
   }
 
   public get from(): Time {
-    return this.from
+    return this._from
   }
 
   public get to(): Time {
-    return this.to
+    return this._to
   }
 }

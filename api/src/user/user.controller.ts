@@ -8,7 +8,7 @@ export class UserController {
   public constructor(private readonly userService: UserService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Patch('finish-signup')
+  @Patch('signup/finish')
   public finishSigningUp(@Body() body: FinishSignUpDTO, @Request() req: any) {
     return this.userService.finishSignUp(req.user.id, body)
   }
