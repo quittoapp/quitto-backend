@@ -4,6 +4,6 @@ import { SmokingPermission } from './entities/smoking-permission.entity'
 @EntityRepository(SmokingPermission)
 export class SmokingPermissionRepository extends Repository<SmokingPermission> {
   public getExpired(date: Date) {
-    return this.find({ where: { date: LessThanOrEqual(date) } })
+    return this.find({ where: { date: LessThanOrEqual(date) }, relations: ['user'] })
   }
 }

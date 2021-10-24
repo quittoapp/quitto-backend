@@ -4,6 +4,7 @@ import { NotificationModule } from 'src/notification/notification.module'
 import { User } from 'src/user/entities/user.entity'
 import { UserModule } from 'src/user/user.module'
 import { SmokingPermission } from './entities/smoking-permission.entity'
+import { SmokingPermissionCronService } from './smoking-permission-cron.service'
 import { SmokingPermissionRepository } from './smoking-permission.repository'
 import { SmokingPermissionService } from './smoking-permission.service'
 
@@ -13,7 +14,7 @@ import { SmokingPermissionService } from './smoking-permission.service'
     NotificationModule,
     UserModule,
   ],
-  providers: [SmokingPermissionService],
+  providers: [SmokingPermissionService, SmokingPermissionCronService],
   exports: [SmokingPermissionService],
 })
 export class SmokingPermissionModule {}

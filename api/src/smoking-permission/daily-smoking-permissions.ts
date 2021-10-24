@@ -1,4 +1,4 @@
-import moment from 'moment'
+import * as moment from 'moment'
 import { RandomTimesInRange } from 'src/time/random-times-in-range'
 import { TimeRange } from 'src/time/time-range'
 import { User } from 'src/user/entities/user.entity'
@@ -16,7 +16,10 @@ export class DailySmokingPermissions {
     const range = TimeRange.fromStrings(this.user.timeWindow.from, this.user.timeWindow.to)
     const randomTimes = new RandomTimesInRange(range, this.user.cigarettesPerDay)
     const dates = randomTimes.forDate(currentUserDate)
-    const smokingPermissions = dates.map((date) => new SmokingPermission(date, this.user))
+    const smokingPermissions = dates.map(
+      (date) =>
+        new SmokingPermission(moment(date).utcOffset(this.user.timezoneOffset).toDate(), this.user),
+    )
 
     return smokingPermissions
   }

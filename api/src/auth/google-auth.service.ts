@@ -46,7 +46,7 @@ export class GoogleAuthService {
     newUser.email = googleUser.email!
     newUser.fullName = googleUser.name!
     newUser.photoUrl = googleUser.picture!
-    newUser.timeWindow = this.userService.makeDefaultTimeWindowForUser()
+    newUser.timeWindow = this.userService.makeDefaultTimeWindowForUser(newUser)
 
     return newUser
   }

@@ -1,5 +1,5 @@
 import { SmokingPermission } from 'src/smoking-permission/entities/smoking-permission.entity'
-import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { TimeWindow } from './time-window.entity'
 
 @Entity()
@@ -28,7 +28,7 @@ export class User {
   @Column({ type: 'integer', nullable: true })
   public timezoneOffset!: number
 
-  @OneToOne(() => TimeWindow, { nullable: true })
+  @OneToOne(() => TimeWindow, (timeWindow) => timeWindow.user, { nullable: true, cascade: true })
   public timeWindow!: TimeWindow
 
   @OneToMany(() => SmokingPermission, (smokingPermission) => smokingPermission.user)

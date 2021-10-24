@@ -24,10 +24,11 @@ export class UserService {
     return this.userRepository.update(userId, info)
   }
 
-  public makeDefaultTimeWindowForUser() {
+  public makeDefaultTimeWindowForUser(user: User) {
     const timeWindow = new TimeWindow()
     timeWindow.from = DEFAULT_TIME_WINDOW_START
     timeWindow.to = DEFAULT_TIME_WINDOW_END
+    timeWindow.user = user
     return timeWindow
   }
 

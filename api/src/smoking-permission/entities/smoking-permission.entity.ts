@@ -9,7 +9,7 @@ export class SmokingPermission {
   @Column()
   public date!: Date
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, (user) => user.smokingPermissions)
   @JoinColumn()
   public user!: User
 
