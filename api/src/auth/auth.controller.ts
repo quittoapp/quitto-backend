@@ -8,6 +8,6 @@ export class AuthController {
 
   @Post('google')
   public authenticate(@Query() query: GoogleAuthQueryDTO) {
-    return this.googleAuthService.authenticate(query.accessToken)
+    return this.googleAuthService.authenticate(query.idToken)
   }
 }
