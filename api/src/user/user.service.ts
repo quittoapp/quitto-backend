@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Time } from 'src/time/time'
+import { EntityManager, Transaction, TransactionManager } from 'typeorm'
 import { FinishSignUpDTO } from './dto/finish-sign-up.dto'
 import { TimeWindow } from './entities/time-window.entity'
 import { User } from './entities/user.entity'
@@ -20,8 +21,25 @@ export class UserService {
     return this.userRepository.save(user)
   }
 
-  public finishSignUp(userId: number, info: FinishSignUpDTO) {
-    return this.userRepository.update(userId, info)
+  @Transaction()
+  public async finishSignUp(
+    userId: number,
+    info: FinishSignUpDTO,
+    @TransactionManager() manager?: EntityManager,
+  ) {
+    const user = await manager!.getCustomRepository(UserRepository).findOneOrFail(userId)
+
+    const newTimeWindow = new TimeWindow()
+    newTimeWindow.from = info.timeWindowStartTime
+    newTimeWindow.to = info.timeWindowEndTime
+    user.timeWindow = newTimeWindow
+
+    user.cigarettesPerDay = info.cigarettesPerDay
+    user.timezoneOffset = info.timezoneOffset
+    user.fcmToken = info.fcmToken
+    user.hasFinishedRegistration = true
+
+    return manager!.getCustomRepository(UserRepository).save(user)
   }
 
   public makeDefaultTimeWindowForUser(user: User) {

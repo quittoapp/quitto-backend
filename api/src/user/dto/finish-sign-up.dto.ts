@@ -9,4 +9,10 @@ export class FinishSignUpDTO {
 
   @IsNumber()
   public timezoneOffset!: number
+
+  @IsString()
+  public timeWindowStartTime!: string
+
+  @IsString()
+  public timeWindowEndTime!: string
 }
