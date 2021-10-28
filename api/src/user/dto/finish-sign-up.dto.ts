@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from 'class-validator'
+import { IsMilitaryTime, IsNumber, IsString } from 'class-validator'
 
 export class FinishSignUpDTO {
   @IsString()
@@ -11,8 +11,10 @@ export class FinishSignUpDTO {
   public timezoneOffset!: number
 
   @IsString()
+  @IsMilitaryTime()
   public timeWindowStartTime!: string
 
   @IsString()
+  @IsMilitaryTime()
   public timeWindowEndTime!: string
 }

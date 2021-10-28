@@ -3,12 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Time } from 'src/time/time'
 import { EntityManager, Transaction, TransactionManager } from 'typeorm'
 import { FinishSignUpDTO } from './dto/finish-sign-up.dto'
+import { UpdateUserDTO } from './dto/update-user.dto'
 import { TimeWindow } from './entities/time-window.entity'
 import { User } from './entities/user.entity'
 import { UserRepository } from './user.repository'
 
-const DEFAULT_TIME_WINDOW_START = new Time(10, 0, 0).toString()
-const DEFAULT_TIME_WINDOW_END = new Time(23, 55, 0).toString()
+const DEFAULT_TIME_WINDOW_START = new Time(10, 0).toString()
+const DEFAULT_TIME_WINDOW_END = new Time(23, 55).toString()
 
 @Injectable()
 export class UserService {
@@ -27,7 +28,8 @@ export class UserService {
     info: FinishSignUpDTO,
     @TransactionManager() manager?: EntityManager,
   ) {
-    const user = await manager!.getCustomRepository(UserRepository).findOneOrFail(userId)
+    const userRepository = manager!.getCustomRepository(UserRepository)
+    const user = await userRepository.findOneOrFail(userId)
 
     const newTimeWindow = new TimeWindow()
     newTimeWindow.from = info.timeWindowStartTime
@@ -39,7 +41,7 @@ export class UserService {
     user.fcmToken = info.fcmToken
     user.hasFinishedRegistration = true
 
-    return manager!.getCustomRepository(UserRepository).save(user)
+    return userRepository.save(user)
   }
 
   public makeDefaultTimeWindowForUser(user: User) {
@@ -60,5 +62,25 @@ export class UserService {
 
   public getByTimezoneOffset(timezoneOffset: number) {
     return this.userRepository.getByTimezoneOffset(timezoneOffset)
+  }
+
+  @Transaction()
+  public async updateUser(
+    id: number,
+    updateUserDTO: UpdateUserDTO,
+    @TransactionManager() manager?: EntityManager,
+  ) {
+    const userRepository = manager!.getCustomRepository(UserRepository)
+    const user = await userRepository.getWithTimeWindow(id)
+    const { timeWindowEndTime, timeWindowStartTime, ...userPatch } = updateUserDTO
+
+    user?.timeWindow.update({ from: timeWindowStartTime, to: timeWindowEndTime })
+
+    const patchedUser = {
+      ...user,
+      ...userPatch,
+    }
+
+    return userRepository.save(patchedUser)
   }
 }

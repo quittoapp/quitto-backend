@@ -1,5 +1,5 @@
 import { SmokingPermission } from 'src/smoking-permission/entities/smoking-permission.entity'
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { TimeWindow } from './time-window.entity'
 
 @Entity()

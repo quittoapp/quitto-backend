@@ -23,6 +23,6 @@ export class RandomTimesInRange {
     const randomHour = random(this.range.from.hours, this.range.to.hours)
     const randomMinutes = random(60)
 
-    return new Time(randomHour, randomMinutes, 0)
+    return new Time(randomHour, randomMinutes)
   }
 }

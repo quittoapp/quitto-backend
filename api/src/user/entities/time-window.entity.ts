@@ -12,4 +12,14 @@ export class TimeWindow {
 
   @Column({ type: 'time' })
   public to!: string
+
+  public update({ from, to }: { from?: string; to?: string }) {
+    if (from) {
+      this.from = from
+    }
+
+    if (to) {
+      this.to = to
+    }
+  }
 }
