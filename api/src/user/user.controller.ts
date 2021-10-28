@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Patch, Request, UseGuards } from '@nestjs/common'
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
-import { FinishSignUpDTO } from './dto/finish-sign-up.dto'
-import { UpdateUserDTO } from './dto/update-user.dto'
+import { FinishSignUpRequestBodyDTO } from './dto/finish-sign-up.request-body.dto'
+import { UpdateUserRequestBodyDTO } from './dto/update-user.request-body.dto'
 import { UserService } from './user.service'
 
 @Controller('user')
@@ -10,13 +10,13 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Patch('signup/finish')
-  public finishSigningUp(@Body() body: FinishSignUpDTO, @Request() req: any) {
+  public finishSigningUp(@Body() body: FinishSignUpRequestBodyDTO, @Request() req: any) {
     return this.userService.finishSignUp(req.user.id, body)
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch('me')
-  public updateUser(@Body() body: UpdateUserDTO, @Request() req: any) {
+  public updateUser(@Body() body: UpdateUserRequestBodyDTO, @Request() req: any) {
     return this.userService.updateUser(req.user.id, body)
   }
 

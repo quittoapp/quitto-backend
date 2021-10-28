@@ -1,6 +1,6 @@
 import { IsMilitaryTime, IsNumber, IsString } from 'class-validator'
 
-export class FinishSignUpDTO {
+export class FinishSignUpRequestBodyDTO {
   @IsString()
   public fcmToken!: string
 

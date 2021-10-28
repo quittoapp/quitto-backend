@@ -1,6 +1,6 @@
 import { IsMilitaryTime, IsNumber, IsOptional, IsString } from 'class-validator'
 
-export class UpdateUserDTO {
+export class UpdateUserRequestBodyDTO {
   @IsOptional()
   @IsString()
   public fcmToken?: string

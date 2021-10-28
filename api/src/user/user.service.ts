@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Time } from 'src/time/time'
 import { EntityManager, Transaction, TransactionManager } from 'typeorm'
-import { FinishSignUpDTO } from './dto/finish-sign-up.dto'
-import { UpdateUserDTO } from './dto/update-user.dto'
+import { FinishSignUpRequestBodyDTO } from './dto/finish-sign-up.request-body.dto'
+import { UpdateUserRequestBodyDTO } from './dto/update-user.request-body.dto'
 import { TimeWindow } from './entities/time-window.entity'
 import { User } from './entities/user.entity'
 import { UserRepository } from './user.repository'
@@ -25,7 +25,7 @@ export class UserService {
   @Transaction()
   public async finishSignUp(
     userId: number,
-    info: FinishSignUpDTO,
+    info: FinishSignUpRequestBodyDTO,
     @TransactionManager() manager?: EntityManager,
   ) {
     const userRepository = manager!.getCustomRepository(UserRepository)
@@ -67,7 +67,7 @@ export class UserService {
   @Transaction()
   public async updateUser(
     id: number,
-    updateUserDTO: UpdateUserDTO,
+    updateUserDTO: UpdateUserRequestBodyDTO,
     @TransactionManager() manager?: EntityManager,
   ) {
     const userRepository = manager!.getCustomRepository(UserRepository)
