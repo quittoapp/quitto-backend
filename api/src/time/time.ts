@@ -4,7 +4,7 @@ export class Time {
   public static fromString(timeString: string) {
     const splitted = timeString.split(':')
 
-    if (![1, 2].includes(splitted.length)) {
+    if (splitted.some(isNaN as any)) {
       throw new Error(`Invalid time string: ${timeString}`)
     }
 

@@ -10,4 +10,11 @@ export class UserRepository extends Repository<User> {
   public getWithTimeWindow(id: number) {
     return this.findOne({ where: { id }, relations: ['timeWindow'] })
   }
+
+  public async getFullUserById(id: number) {
+    return this.findOneOrFail({
+      where: { id },
+      relations: ['timeWindow', 'smokingPermissions'],
+    })
+  }
 }

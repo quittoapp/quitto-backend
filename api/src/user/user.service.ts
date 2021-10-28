@@ -56,8 +56,8 @@ export class UserService {
     return this.userRepository.findOne({ email })
   }
 
-  public getById(id: number) {
-    return this.userRepository.findOne(id)
+  public getFullUserById(id: number) {
+    return this.userRepository.getFullUserById(id)
   }
 
   public getByTimezoneOffset(timezoneOffset: number) {
