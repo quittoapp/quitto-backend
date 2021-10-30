@@ -8,7 +8,10 @@ import { NotificationModule } from './notification/notification.module'
 import { SmokingPermissionModule } from './smoking-permission/smoking-permission.module'
 import { TimeWindow } from './user/entities/time-window.entity'
 import { SmokingPermission } from './smoking-permission/entities/smoking-permission.entity'
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './auth/auth.module'
+import { JobsModule } from './jobs/jobs.module'
+import { DailySmokingReportModule } from './daily-smoking-report/daily-smoking-report.module'
+import { DailySmokingReport } from './daily-smoking-report/entities/daily-smoking-report.entity'
 
 @Module({
   imports: [
@@ -19,7 +22,7 @@ import { AuthModule } from './auth/auth.module';
       username: config.databaseUserName,
       password: config.databasePassword,
       database: config.databaseName,
-      entities: [User, TimeWindow, SmokingPermission],
+      entities: [User, TimeWindow, SmokingPermission, DailySmokingReport],
       synchronize: true,
     }),
     UserModule,
@@ -27,6 +30,8 @@ import { AuthModule } from './auth/auth.module';
     SmokingPermissionModule,
     ScheduleModule.forRoot(),
     AuthModule,
+    JobsModule,
+    DailySmokingReportModule,
   ],
   controllers: [],
   providers: [],

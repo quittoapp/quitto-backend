@@ -1,11 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { OffsetOfCurrentMidnightTimezone } from 'src/time/offset-of-current-midnight-timezone'
 import { User } from 'src/user/entities/user.entity'
-import { getConnection, Repository } from 'typeorm'
+import { EntityManager, Repository } from 'typeorm'
 import { flatMap, isEmpty, uniq } from 'lodash'
 import { NotificationService } from 'src/notification/notification.service'
-import { UserService } from 'src/user/user.service'
 import { ZeroUTCOffsetDate } from 'src/time/zero-utc-offset-date'
 import { SmokingPermission } from './entities/smoking-permission.entity'
 import { DailySmokingPermissions } from './daily-smoking-permissions'
@@ -17,37 +15,30 @@ export class SmokingPermissionService {
   public constructor(
     @InjectRepository(SmokingPermission)
     private readonly smokingPermissionRepository: Repository<SmokingPermission>,
-    private readonly userService: UserService,
     private readonly notificationService: NotificationService,
   ) {}
 
-  public async createSmokingPermissionsForCurrentMidnightTimezone() {
-    const currentOffset = new OffsetOfCurrentMidnightTimezone().toNumber()
-    const users = await this.userService.getByTimezoneOffset(currentOffset)
-
+  public async createSmokingPermissionsForUsers(users: User[]) {
     const usersPermissions = this.makeDailyPermissionsForUsers(users)
     await this.smokingPermissionRepository.save(usersPermissions)
   }
 
-  public async notifyAboutExpiredSmokingPermissions() {
-    await getConnection().transaction(async (manager) => {
-      const smokingPermissionsRepository = manager.getCustomRepository(SmokingPermissionRepository)
-      const currentUTCDate = new ZeroUTCOffsetDate().toDate()
-      const expiredPermissions = await smokingPermissionsRepository.getExpired(currentUTCDate)
+  public async handleExpiredSmokingPermissions(manager: EntityManager) {
+    const smokingPermissionsRepository = manager.getCustomRepository(SmokingPermissionRepository)
+    const currentUTCDate = new ZeroUTCOffsetDate().toDate()
+    const expiredPermissions = await smokingPermissionsRepository.getExpired(currentUTCDate)
 
-      const usersFCMs = uniq(expiredPermissions.map((permission) => permission.user.fcmToken))
+    const usersFCMs = uniq(expiredPermissions.map((permission) => permission.user.fcmToken))
 
-      if (isEmpty(usersFCMs)) {
-        return
-      }
+    if (isEmpty(usersFCMs)) {
+      return []
+    }
 
-      await this.notificationService.notify(
-        usersFCMs,
-        new SmokingPermissionNotification().getData(),
-      )
+    await this.notificationService.notify(usersFCMs, new SmokingPermissionNotification().getData())
 
-      await smokingPermissionsRepository.remove(expiredPermissions)
-    })
+    await smokingPermissionsRepository.remove(expiredPermissions)
+
+    return expiredPermissions
   }
 
   private makeDailyPermissionsForUsers(users: User[]) {
