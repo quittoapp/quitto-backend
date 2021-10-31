@@ -1,4 +1,4 @@
-import * as moment from 'moment'
+import moment from 'moment'
 import { RandomTimesInRange } from 'src/time/random-times-in-range'
 import { TimeRange } from 'src/time/time-range'
 import { User } from 'src/user/entities/user.entity'
