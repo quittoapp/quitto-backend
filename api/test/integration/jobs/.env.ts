@@ -1,5 +1,6 @@
 process.env.SERVICE_PORT = '3000'
 process.env.DATABASE_HOST = 'localhost'
+process.env.DATABASE_PORT = 'should be overriden in test'
 process.env.DATABASE_USER_NAME = 'postgres'
 process.env.DATABASE_PASSWORD = 'postgres'
 process.env.DATABASE_NAME = 'quitto'
