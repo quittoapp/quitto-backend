@@ -10,7 +10,7 @@ import { createFakeUser } from 'test/factories/createUser'
 import { OffsetOfCurrentMidnightTimezone } from 'src/time/offset-of-current-midnight-timezone'
 import { DailyJobsService } from 'src/jobs/daily-jobs.service'
 
-jest.setTimeout(10_000)
+jest.setTimeout(20_000)
 
 describe('DailyJobsService', () => {
   describe('#createDailySmokingPermissions', () => {
