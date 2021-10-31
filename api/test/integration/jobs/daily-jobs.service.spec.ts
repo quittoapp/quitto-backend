@@ -17,14 +17,12 @@ describe('DailyJobsService', () => {
     let module: TestingModule
 
     beforeAll(async () => {
-      const dbContainer = await new GenericContainer('postgres')
+      await new GenericContainer('postgres')
         .withEnv('POSTGRES_PASSWORD', 'postgres')
         .withEnv('POSTGRES_USER', 'postgres')
         .withEnv('POSTGRES_DB', 'quitto')
-        .withExposedPorts(5432)
+        .withExposedPorts(5433)
         .start()
-
-      process.env.DATABASE_PORT = String(dbContainer.getMappedPort(5432))
 
       module = await Test.createTestingModule({ imports: [AppModule] })
         .overrideProvider(NotificationService)
