@@ -1,0 +1,8 @@
+process.env.SERVICE_PORT = '3000'
+process.env.DATABASE_HOST = 'localhost'
+process.env.DATABASE_USER_NAME = 'postgres'
+process.env.DATABASE_PASSWORD = 'postgres'
+process.env.DATABASE_NAME = 'quitto'
+process.env.GOOGLE_OAUTH_CLIENT_ID = 'test'
+process.env.GOOGLE_OAUTH_CLIENT_SECRET = 'test'
+process.env.JWT_SECRET_KEY = 'wow_so_secret'

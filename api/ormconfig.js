@@ -1,4 +1,12 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
+const path = require('path')
 const { config } = require('./dist/src/config')
+
+const entitiesPath =
+  process.env.NODE_ENV === 'test'
+    ? path.resolve(__dirname, '**/*.entity.ts')
+    : path.resolve(__dirname, '**/*.entity.js')
 
 module.exports = {
   type: 'postgres',
@@ -11,6 +19,6 @@ module.exports = {
   cli: {
     migrationsDir: 'src/migration',
   },
-  entities: ['./dist/**/*.entity.js'],
+  entities: [entitiesPath],
   synchronize: true,
 }

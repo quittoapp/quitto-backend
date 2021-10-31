@@ -5,7 +5,6 @@ export function createFakeUser(overrides: Partial<User> = {}) {
   const fakeTimeWindow = overrides.timeWindow ?? new TimeWindow('08:00', '23:00')
 
   const fakeUser = {
-    id: 1,
     email: 'test@email.com',
     fullName: 'Vasily Poopkin',
     photoUrl: 'http://example.com',
@@ -17,7 +16,7 @@ export function createFakeUser(overrides: Partial<User> = {}) {
     smokingPermissions: [],
     dailySmokingReport: [],
     ...overrides,
-  }
+  } as User
 
   fakeTimeWindow.user = fakeUser
 
