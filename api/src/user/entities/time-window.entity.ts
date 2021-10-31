@@ -13,9 +13,14 @@ export class TimeWindow {
   @Column({ type: 'time' })
   public to!: string
 
-  public constructor(from: string, to: string) {
-    this.from = from
-    this.to = to
+  public constructor(from?: string, to?: string) {
+    if (from) {
+      this.from = from
+    }
+
+    if (to) {
+      this.to = to
+    }
   }
 
   public update({ from, to }: { from?: string; to?: string }) {
