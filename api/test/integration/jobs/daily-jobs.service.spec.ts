@@ -1,6 +1,6 @@
 import './.env'
 import { Test, TestingModule } from '@nestjs/testing'
-import { GenericContainer } from 'testcontainers'
+import { GenericContainer, Wait } from 'testcontainers'
 import { AppModule } from 'src/app.module'
 import { NotificationService } from 'src/notification/notification.service'
 import { NotificationServiceStub } from 'test/stubs/notification.service.stub'
@@ -10,18 +10,19 @@ import { createFakeUser } from 'test/factories/createUser'
 import { OffsetOfCurrentMidnightTimezone } from 'src/time/offset-of-current-midnight-timezone'
 import { DailyJobsService } from 'src/jobs/daily-jobs.service'
 
-jest.setTimeout(20_000)
+jest.setTimeout(60_000)
 
 describe('DailyJobsService', () => {
   describe('#createDailySmokingPermissions', () => {
     let module: TestingModule
 
     beforeAll(async () => {
-      await new GenericContainer('postgres')
+      const dbContainer = await new GenericContainer('postgres')
         .withEnv('POSTGRES_PASSWORD', 'postgres')
         .withEnv('POSTGRES_USER', 'postgres')
         .withEnv('POSTGRES_DB', 'quitto')
-        .withExposedPorts(5433)
+        .withPortMappings({ 5432: 5433 })
+        .withWaitStrategy(Wait.forLogMessage('database system is ready to accept connections'))
         .start()
 
       module = await Test.createTestingModule({ imports: [AppModule] })
