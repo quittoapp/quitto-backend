@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { Injectable } from '@nestjs/common'
 import admin from 'firebase-admin'
-import * as firebaseServiceAccount from '../../firebase-service-account.json'
 
 let isAppInitialized = false
 
@@ -16,6 +16,7 @@ export class NotificationService {
 
   private initializeAppIfNecessary() {
     if (!isAppInitialized) {
+      const firebaseServiceAccount = require('../../firebase-service-account.json')
       admin.initializeApp({ credential: admin.credential.cert(<any>firebaseServiceAccount) })
       isAppInitialized = true
     }
