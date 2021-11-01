@@ -1,5 +1,5 @@
 import { User } from 'src/user/entities/user.entity'
-import { createFakeUser } from 'test/factories/createUser'
+import { createFakeUser } from 'test/factories/create-user'
 import { getConnection } from 'typeorm'
 
 export async function seedUsers({ amount = 5 } = {}) {

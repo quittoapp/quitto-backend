@@ -2,7 +2,7 @@ import moment from 'moment'
 import { DailySmokingPermissions } from 'src/smoking-permission/daily-smoking-permissions'
 import { TimeWindow } from 'src/user/entities/time-window.entity'
 import { User } from 'src/user/entities/user.entity'
-import { createFakeUser } from 'test/factories/createUser'
+import { createFakeUser } from 'test/factories/create-user'
 
 describe('DailySmokingPermissions', () => {
   describe('#toList', () => {
