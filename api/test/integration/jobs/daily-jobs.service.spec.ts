@@ -1,6 +1,6 @@
 import './.env'
 import { Test, TestingModule } from '@nestjs/testing'
-import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers'
+import { StartedTestContainer } from 'testcontainers'
 import { AppModule } from 'src/app.module'
 import { NotificationService } from 'src/notification/notification.service'
 import { NotificationServiceStub } from 'test/stubs/notification.service.stub'
@@ -9,6 +9,7 @@ import { User } from 'src/user/entities/user.entity'
 import { createFakeUser } from 'test/factories/createUser'
 import { OffsetOfCurrentMidnightTimezone } from 'src/time/offset-of-current-midnight-timezone'
 import { DailyJobsService } from 'src/jobs/daily-jobs.service'
+import { spinUpDBContainer } from 'test/utils/spin-up-db-container'
 
 jest.setTimeout(60_000)
 
@@ -18,13 +19,7 @@ describe('DailyJobsService', () => {
     let dbContainer: StartedTestContainer
 
     beforeAll(async () => {
-      dbContainer = await new GenericContainer('postgres')
-        .withEnv('POSTGRES_PASSWORD', 'postgres')
-        .withEnv('POSTGRES_USER', 'postgres')
-        .withEnv('POSTGRES_DB', 'quitto')
-        .withPortMappings({ 5432: 5433 })
-        .withWaitStrategy(Wait.forLogMessage('database system is ready to accept connections'))
-        .start()
+      dbContainer = await spinUpDBContainer()
 
       module = await Test.createTestingModule({ imports: [AppModule] })
         .overrideProvider(NotificationService)
@@ -58,9 +53,13 @@ describe('DailyJobsService', () => {
 
         const userWithUpdatedPermissions = await getConnection()
           .getRepository(User)
-          .findOneOrFail({ where: { email: user.email }, relations: ['smokingPermissions'] })
+          .findOneOrFail({
+            where: { email: user.email },
+            relations: ['smokingPermissions', 'dailySmokingReport'],
+          })
 
         expect(userWithUpdatedPermissions.smokingPermissions).toHaveLength(15)
+        expect(userWithUpdatedPermissions.dailySmokingReport).toBeDefined()
       })
     })
   })
