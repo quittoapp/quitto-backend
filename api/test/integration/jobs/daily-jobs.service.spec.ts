@@ -1,6 +1,6 @@
 import './.env'
 import { Test, TestingModule } from '@nestjs/testing'
-import { GenericContainer, Wait } from 'testcontainers'
+import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers'
 import { AppModule } from 'src/app.module'
 import { NotificationService } from 'src/notification/notification.service'
 import { NotificationServiceStub } from 'test/stubs/notification.service.stub'
@@ -15,9 +15,10 @@ jest.setTimeout(60_000)
 describe('DailyJobsService', () => {
   describe('#createDailySmokingPermissions', () => {
     let module: TestingModule
+    let dbContainer: StartedTestContainer
 
     beforeAll(async () => {
-      const dbContainer = await new GenericContainer('postgres')
+      dbContainer = await new GenericContainer('postgres')
         .withEnv('POSTGRES_PASSWORD', 'postgres')
         .withEnv('POSTGRES_USER', 'postgres')
         .withEnv('POSTGRES_DB', 'quitto')
@@ -32,6 +33,10 @@ describe('DailyJobsService', () => {
 
       const app = module.createNestApplication()
       await app.init()
+    })
+
+    afterAll(async () => {
+      await dbContainer.stop()
     })
 
     describe('given a user who has 00 hours by his timezone right now', () => {
