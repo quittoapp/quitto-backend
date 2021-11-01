@@ -6,10 +6,11 @@ import { NotificationService } from 'src/notification/notification.service'
 import { NotificationServiceStub } from 'test/stubs/notification.service.stub'
 import { getConnection } from 'typeorm'
 import { User } from 'src/user/entities/user.entity'
-import { createFakeUser } from 'test/factories/create-user'
 import { OffsetOfCurrentMidnightTimezone } from 'src/time/offset-of-current-midnight-timezone'
 import { DailyJobsService } from 'src/jobs/daily-jobs.service'
 import { spinUpDBContainer } from 'test/utils/spin-up-db-container'
+import { seedUser, seedUsers } from 'test/seed/seed-users'
+import { first } from 'lodash'
 
 jest.setTimeout(60_000)
 
@@ -38,14 +39,12 @@ describe('DailyJobsService', () => {
       let user: User
 
       beforeAll(async () => {
-        user = await getConnection()
-          .getRepository(User)
-          .save(
-            createFakeUser({
-              timezoneOffset: new OffsetOfCurrentMidnightTimezone().toNumber(),
-              cigarettesPerDay: 15,
-            }),
-          )
+        const offsetOfCurrentMidnightTimezone = new OffsetOfCurrentMidnightTimezone().toNumber()
+
+        user = await seedUser({
+          timezoneOffset: offsetOfCurrentMidnightTimezone,
+          cigarettesPerDay: 15,
+        })
       })
 
       it('creates daily smoking permissions for users', async () => {

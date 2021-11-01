@@ -1,4 +1,4 @@
-import { keyBy } from 'lodash'
+import { groupBy, keyBy } from 'lodash'
 import { SmokingPermission } from 'src/smoking-permission/entities/smoking-permission.entity'
 import { EntityRepository, In, Repository } from 'typeorm'
 import { DailySmokingReport } from './entities/daily-smoking-report.entity'
@@ -6,17 +6,22 @@ import { DailySmokingReport } from './entities/daily-smoking-report.entity'
 @EntityRepository(DailySmokingReport)
 export class DailySmokingReportRepository extends Repository<DailySmokingReport> {
   public async increaseAmountOfSmokedCigarettes(expiredSmokingPermissions: SmokingPermission[]) {
-    const userIdToExpiredPermissions = keyBy(expiredSmokingPermissions, 'user.id') as any
+    const userIdToExpiredPermissions = groupBy(expiredSmokingPermissions, 'user.id') as any
     const userIds = Object.keys(userIdToExpiredPermissions).map(Number)
+
     const currentSmokingReports = await this.createQueryBuilder('report')
-      .select('r.*')
+      .select('report.*')
       .innerJoin(
         (qb) =>
-          qb.select('max(date) as date, user_id').from(DailySmokingReport, 'tr').groupBy('user_id'),
+          qb
+            .select('max(date) as date, "userId"')
+            .from(DailySmokingReport, 'tr')
+            .groupBy('"userId"'),
         't',
+        't.date = report.date AND t."userId" = report."userId"',
       )
       .where({ userId: In(userIds) })
-      .getMany()
+      .getRawMany()
 
     for (const report of currentSmokingReports) {
       report.amountOfSmokedCigarettes += userIdToExpiredPermissions[report.userId].length
