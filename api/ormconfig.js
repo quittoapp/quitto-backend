@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const path = require('path')
-const { config } = require('./dist/src/config')
+const { config } = require('./dist/config')
 
 const entitiesPath =
   process.env.NODE_ENV === 'test'
