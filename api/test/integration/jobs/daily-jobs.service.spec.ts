@@ -9,8 +9,7 @@ import { User } from 'src/user/entities/user.entity'
 import { OffsetOfCurrentMidnightTimezone } from 'src/time/offset-of-current-midnight-timezone'
 import { DailyJobsService } from 'src/jobs/daily-jobs.service'
 import { spinUpDBContainer } from 'test/utils/spin-up-db-container'
-import { seedUser, seedUsers } from 'test/seed/seed-users'
-import { first } from 'lodash'
+import { seedUser } from 'test/seed/seed-users'
 
 jest.setTimeout(60_000)
 

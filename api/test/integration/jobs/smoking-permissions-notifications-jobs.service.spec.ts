@@ -13,7 +13,6 @@ import { SmokingPermissionsNotificationsJobsService } from 'src/jobs/smoking-per
 import { getConnection } from 'typeorm'
 import { SmokingPermission } from 'src/smoking-permission/entities/smoking-permission.entity'
 import { DailySmokingReport } from 'src/daily-smoking-report/entities/daily-smoking-report.entity'
-import { before } from 'lodash'
 import { User } from 'src/user/entities/user.entity'
 
 jest.setTimeout(60_000)
@@ -36,7 +35,7 @@ describe('SmokingPermissionsNotificationsJobsService', () => {
     })
 
     afterAll(async () => {
-      // await dbContainer.stop()
+      await dbContainer.stop()
     })
 
     describe('given a user, whose smoking permissions are expired', () => {

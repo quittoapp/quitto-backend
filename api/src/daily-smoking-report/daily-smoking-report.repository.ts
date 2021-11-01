@@ -1,4 +1,4 @@
-import { groupBy, keyBy } from 'lodash'
+import { groupBy } from 'lodash'
 import { SmokingPermission } from 'src/smoking-permission/entities/smoking-permission.entity'
 import { EntityRepository, In, Repository } from 'typeorm'
 import { DailySmokingReport } from './entities/daily-smoking-report.entity'
