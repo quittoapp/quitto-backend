@@ -26,6 +26,7 @@ export class DailyJobsService {
 
     await this.smokingPermissionService.createSmokingPermissionsForUsers(users)
     await this.dailySmokingReportService.createDailySmokingReportsForUsers(users)
+
     this.logger.log('Done')
   }
 }
